@@ -5,10 +5,6 @@ const passport = require('passport');
 
 const router = express.Router();
 
-const passportAuth = () => {
-  return passport.authenticate('jwt', { session: false });
-};
-
 router
   .route('/top-5-cheap')
   .get(tourController.aliasTopTours, tourController.getAllTours);
@@ -18,15 +14,21 @@ router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
 
 router
   .route('/')
-  .get(passportAuth(), tourController.getAllTours)
-  .post(passportAuth(), tourController.createTour);
+  .get(
+    passport.authenticate('jwt', { session: false }),
+    tourController.getAllTours
+  )
+  .post(
+    passport.authenticate('jwt', { session: false }),
+    tourController.createTour
+  );
 
 router
   .route('/:id')
   .get(tourController.getTour)
   .patch(tourController.updateTour)
   .delete(
-    passportAuth(),
+    authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
     tourController.deleteTour
   );
