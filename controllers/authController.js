@@ -37,11 +37,6 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-exports.issueJWTGoogle = (req, res) => {
-  // Implement Auth.html to render
-  createSendToken(req.user, 200, res);
-};
-
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
