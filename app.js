@@ -16,8 +16,9 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const googleRouter = require('./routes/googleRoutes');
 
-// require('./passport/passport-jwt')(passport);
+require('./passport/passport-google')(passport);
 
 const app = express();
 
@@ -57,7 +58,12 @@ app.use(
           'https://m.stripe.network',
         ],
         childSrc: ["'self'", 'blob:'],
-        imgSrc: ["'self'", 'data:', 'blob:'],
+        imgSrc: [
+          "'self'",
+          'data:',
+          'blob:',
+          'https://*.googleusercontent.com/',
+        ],
         formAction: ["'self'"],
         connectSrc: [
           "'self'",
@@ -118,6 +124,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/auth/google', googleRouter);
 
 // Handling undefined routes
 app.all('*', (req, res, next) => {
