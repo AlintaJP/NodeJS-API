@@ -5,7 +5,6 @@ const googleSchema = new mongoose.Schema({
   googleId: {
     type: String,
     required: [true, 'Please provide google id'],
-    select: false,
   },
   name: {
     type: String,

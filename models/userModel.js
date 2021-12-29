@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
+  googleId: String,
   photo: String,
   role: {
     type: String,
