@@ -7,19 +7,19 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please tell us your name!'],
-    trim: true,
-    maxLength: [30, 'A user name must have less or equal then 30 characters'],
   },
   email: {
     type: String,
     required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
-    trim: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   googleId: String,
-  photo: String,
+  photo: {
+    type: String,
+    default: 'default.jpg',
+  },
   role: {
     type: String,
     enum: ['user', 'guide', 'lead-guide', 'admin'],
@@ -28,16 +28,16 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please provide a password'],
-    minLength: 8,
+    minlength: 8,
     select: false,
   },
   passwordConfirm: {
     type: String,
     required: [true, 'Please confirm your password'],
     validate: {
-      // This only works on CREATE and SAVE
-      validator: function (val) {
-        return val === this.password;
+      // This only works on CREATE and SAVE!!!
+      validator: function (el) {
+        return el === this.password;
       },
       message: 'Passwords are not the same!',
     },
@@ -53,10 +53,13 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function (next) {
+  // Only run this function if password was actually modified
   if (!this.isModified('password')) return next();
 
+  // Hash the password with cost of 12
   this.password = await bcrypt.hash(this.password, 12);
 
+  // Delete passwordConfirm field
   this.passwordConfirm = undefined;
   next();
 });
@@ -81,16 +84,17 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = function (JWTTimeStamp) {
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
-    const changedTimeStamp = parseInt(
+    const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
       10
     );
 
-    return JWTTimeStamp < changedTimeStamp;
+    return JWTTimestamp < changedTimestamp;
   }
 
+  // False means NOT changed
   return false;
 };
 

@@ -29,10 +29,10 @@ block content
       .user-view__content
         .user-view__form-container
           h2.heading-secondary.ma-bt-md Your account settings
-          
+
           //- WITHOUT API
           //- form.form.form-user-data(action='/submit-user-data' method='POST' enctype='multipart/form-data')
-          
+
           //- WITH API
           form.form.form-user-data
             .form__group
@@ -40,19 +40,22 @@ block content
               input#name.form__input(type='text', value=`${user.name}`, required, name='name')
             .form__group.ma-bt-md
               label.form__label(for='email') Email address
-              input#email.form__input(type='email', value=`${user.email}`, required, name='email')
+              - if (user.googleId)
+                input#email.form__input(type='email', value=`${user.email}`, required, name='email' disabled)
+              - else 
+                input#email.form__input(type='email', value=`${user.email}`, required, name='email')
             .form__group.form__photo-upload
               - const image = user.photo.includes('google') ? user.photo : `/img/users/${user.photo}`
               img.form__user-photo(src=image, alt='User photo')
               input.form__upload(type='file', accept='image/*', id='photo', name='photo')
               label(for='photo') Choose new photo
-              
+
             .form__group.right
               button.btn.btn--small.btn--green Save settings
 
         - if (!user.googleId)      
           .line &nbsp;
-          
+
           .user-view__form-container
             h2.heading-secondary.ma-bt-md Password change
             form.form.form-user-password
