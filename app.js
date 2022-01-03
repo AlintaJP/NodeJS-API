@@ -32,6 +32,8 @@ app.set('views', path.join(__dirname, 'views'));
 //1. Global Middlewares
 app.use(cors());
 
+app.options('*', cors());
+
 app.use(
   helmet({
     contentSecurityPolicy: {
