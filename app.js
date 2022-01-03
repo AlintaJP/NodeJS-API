@@ -18,6 +18,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const googleRouter = require('./routes/googleRoutes');
 
 require('./passport/passport-google')(passport);
@@ -101,6 +102,13 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
+
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(mongoSanitize());
