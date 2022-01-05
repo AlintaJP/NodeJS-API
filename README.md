@@ -4,9 +4,9 @@
 
 **Note**: Not all API endpoints are implemented on UI
 
-install all dependencies by running **npm i** command
-start the development server by running **npm run dev** command
-the app can be accessed on the **localhost:3000**
+1. install all dependencies by running **npm i** command
+2. start the development server by running **npm run dev** command
+3. the app can be accessed on the **localhost:3000**
 
 use **npm run seed:db** command to seed your mongoDB
 use **npm run drop:db** command to delete all the data from your mongoDB
