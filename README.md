@@ -8,8 +8,8 @@
 2. start the development server by running **npm run dev** command
 3. the app can be accessed on the **localhost:3000**
 
-use **npm run seed:db** command to seed your mongoDB
-use **npm run drop:db** command to delete all the data from your mongoDB
+4. use **npm run seed:db** command to seed your mongoDB
+5. use **npm run drop:db** command to delete all the data from your mongoDB
 
 to change your role to **admin** you have to do it manually in the mongoDB document
 
