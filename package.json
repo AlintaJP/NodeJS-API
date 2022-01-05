@@ -9,7 +9,9 @@
     "start:prod": "set NODE_ENV=production && nodemon server.js",
     "debug": "ndb server.js",
     "watch:js": "parcel watch --no-hmr ./public/js/index.js --out-dir ./public/js --out-file bundle.js --public-url ./",
-    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js --public-url ./"
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js --public-url ./",
+    "seed:db": "node .\\dev-data\\data\\import-dev-data.js --import",
+    "drop:db": "node .\\dev-data\\data\\import-dev-data.js --delete"
   },
   "author": "",
   "license": "ISC",
